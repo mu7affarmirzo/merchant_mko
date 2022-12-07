@@ -89,12 +89,12 @@ DATABASES = {
         'NAME': 'mko_merchant',
         'USER': 'mko_merchant',
         'PASSWORD': 'fr3shOcean55',
-        'HOST': '192.168.202.65',
+        'HOST': 'localhost',
         'PORT': '5432',
     },
     'mko_db': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'mko_wallet', # database name
+        'NAME': 'mko_wallet',
         'USER': 'wallet_select',
         'PASSWORD': 'V2VsY29tZSB0byB0',
         'HOST': '192.168.202.64',
