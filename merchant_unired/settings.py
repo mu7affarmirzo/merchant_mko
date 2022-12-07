@@ -85,8 +85,12 @@ DATABASE_ROUTERS = ['routers.db_routers.AuthRouter', 'routers.db_routers.WalletR
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'mko_merchant',
+        'USER': 'mko_merchant',
+        'PASSWORD': 'fr3shOcean55',
+        'HOST': '192.168.202.65',
+        'PORT': '5432',
     },
     'mko_db': {
         'ENGINE': 'django.db.backends.mysql',
