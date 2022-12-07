@@ -90,7 +90,7 @@ DATABASES = {
         'USER': 'mko_merchant',
         'PASSWORD': 'fr3shOcean55',
         'HOST': 'localhost',
-        'PORT': '5432',
+        'PORT': '',
     },
     'mko_db': {
         'ENGINE': 'django.db.backends.mysql',
