@@ -2,3 +2,4 @@ django
 requests
 whitenoise==6.0.0
 PyMySQL==1.0.2
+djangorestframework

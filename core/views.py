@@ -5,7 +5,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 
 from core.forms import AccountAuthenticationForm
-
+from rest_framework.generics import ListCreateAPIView
 
 def login_view(request):
     context = {}
@@ -32,3 +32,25 @@ def login_view(request):
 @login_required
 def home_page_view(request):
     return render(request, 'pages/index.html', {})
+
+
+class TestCreateView(ListCreateAPIView):
+    pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

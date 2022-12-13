@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'core.apps.CoreConfig',
-    'main.apps.MainConfig'
+    'main.apps.MainConfig',
+    'django.contrib.humanize'
 ]
 
 MIDDLEWARE = [
@@ -92,6 +93,10 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': '',
     },
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': 'db.sqlite3',
+    # },
     'mko_db': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'mko_wallet',
@@ -101,6 +106,10 @@ DATABASES = {
         'PORT': '3306',
     }
 }
+
+
+LOGIN_URL = 'main:login'
+LOGIN_REDIRECT_URL = 'main:login'
 
 
 # Password validation

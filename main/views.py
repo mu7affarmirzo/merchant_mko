@@ -1,5 +1,8 @@
+from datetime import datetime
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.db.models import Sum
 from django.shortcuts import render, redirect
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -34,16 +37,34 @@ def login_view(request):
 def home_page_view(request):
     merchant = request.user
     merchant_key = merchant.merchant_prof.merchant_key
-    merchant_model = Merchants.objects.filter(key=merchant_key)
-    payments = Payments.objects.filter(merchant=merchant_model[0])
-    # balance = merchant_model.acount.card
-    # print(balance)
-    print("*************************************")
-    print(f"merchant: {merchant_model[0]}")
-    print(f"payments: {payments}")
-    print("*************************************")
-    print(payments)
-    return render(request, 'pages/index.html', {"payments": payments})
+    try:
+        merchant_model = Merchants.objects.get(key=merchant_key)
+    except Merchants.DoesNotExist:
+        return render(request, 'pages/index.html', {"payments": {}})
+    except Merchants.MultipleObjectsReturned:
+        merchant_model = Merchants.objects.filter(key=merchant_key)
+        merchant_model = merchant_model[0]
+
+    payments = Payments.objects.filter(merchant=merchant_model)
+    balance = merchant_model.account.card.balance
+    merchant_card = merchant_model.account.card
+    print(f"Balance: {balance}")
+
+    total_sales = payments.aggregate(Sum('amount'))
+    if len(payments.filter(created_at=datetime.now().date())) == 0:
+        today_sales = {
+            'amount__sum': 0
+        }
+    else:
+        today_sales = payments.filter(created_at=datetime.now().date()).aggregate(Sum('amount'))
+
+    context = {
+        "payments": payments,
+        "total_sales": total_sales,
+        "today_sales": today_sales,
+        "balance": balance
+    }
+    return render(request, 'pages/index.html', context)
 
 
 def logout_view(request):
