@@ -1,0 +1,72 @@
+{% extends 'snippets/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{%  block content %}
+    <div class="row g-4">
+        <div class="col-12">
+            <div class="bg-light rounded h-100 p-4">
+                <h6 class="mb-4">Detailed Info</h6>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                        <th>Client:</th>
+                        <td>{{ payment.client }}</td>
+                        </tr>
+                        <tr>
+                        <th>Merchant:</th>
+                        <td>{{ payment.merchant }}</td>
+                        </tr>
+                        <tr>
+                        <th>Period:</th>
+                        <td>{{ payment.period }}</td>
+                        </tr>
+                        <tr>
+                        <th>Percantage:</th>
+                        <td>{{ payment.percentage }}</td>
+                        </tr>
+                        <tr>
+                        <th>Sender Card:</th>
+                        <td>{{ payment.sender_card }}</td>
+                        </tr>
+                        <tr>
+                        <th>Amount:</th>
+                        <td>{{ payment.amount|intcomma }}</td>
+                        </tr>
+                        <tr>
+                        <th>DATE:</th>
+                        <td>{{ payment.date }}</td>
+                        </tr>
+                        <tr>
+                        <th>Is Transaction:</th>
+                        <td>{{ payment.is_transaction }}</td>
+                        </tr>
+                        <tr>
+                        <th>Status:</th>
+                        <td>{{ payment.status }}</td>
+                        </tr>
+                        <tr>
+                        <th>Transaction ID:</th>
+                        <td>{{ payment.tr_id }}</td>
+                        </tr>
+                        <tr>
+                        <th>Created Date:</th>
+                        <td>{{ payment.created_at }}</td>
+                        </tr>
+                        <tr>
+                        <th>Update Date:</th>
+                        <td>{{ payment.updated_at }}</td>
+                        </tr>
+
+                        </thead>
+                    </table>
+                        <form action='{% url 'main:home' %}' method='GET'>
+                            <button class="btn btn-danger m-1" type='submit' onclick="return confirm('Are you sure?');">Cancel Payment</button>
+                        </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{%  endblock content %}

@@ -7,7 +7,7 @@ from .models.mko_models import Accounts, TransactionAccounts, Payments, Brands, 
 
 @admin.register(Accounts)
 class AccountAdmin(admin.ModelAdmin):
-    list_display = ('inn', 'filial', 'number')
+    list_display = ('name', 'inn', 'filial', 'number')
 
 
 @admin.register(TransactionAccounts)

@@ -10,7 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
+import sys
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-o4@efj$mh7gr770xp9r#f+e56)@cj_fd*c4e_&aj!2i^k$kk+p'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -85,24 +87,24 @@ pymysql.install_as_MySQLdb()
 DATABASE_ROUTERS = ['routers.db_routers.AuthRouter', 'routers.db_routers.WalletRouter']
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'mko_merchant',
-        'USER': 'mko_merchant',
-        'PASSWORD': 'fr3shOcean55',
-        'HOST': 'localhost',
-        'PORT': '',
-    },
     # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': 'db.sqlite3',
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': 'mko_merchant',
+    #     'USER': 'mko_merchant',
+    #     'PASSWORD': 'fr3shOcean55',
+    #     'HOST': 'localhost',
+    #     'PORT': '',
     # },
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'db.sqlite3',
+    },
     'mko_db': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'mko_wallet',
-        'USER': 'wallet_select',
-        'PASSWORD': 'V2VsY29tZSB0byB0',
-        'HOST': '192.168.202.64',
+        'USER': config('WALLET_DB_USER'),
+        'PASSWORD': config('WALLET_DB_PASSWORD'),
+        'HOST': config('WALLET_DB_HOST'),
         'PORT': '3306',
     }
 }

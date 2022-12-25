@@ -1,0 +1,49 @@
+{% extends 'snippets/base.html' %}
+{% load humanize %}
+
+{% block content %}
+    <!-- Recent Sales Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="bg-light text-center rounded p-4">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <h6 class="mb-0">Recent Sales</h6>
+                <a href="">Show All</a>
+            </div>
+            <div class="table-responsive">
+                <table class="table text-start align-middle table-bordered table-hover mb-0">
+                    <thead>
+                        <tr class="text-dark">
+                            <th scope="col"><label>
+                                <input class="form-check-input" type="checkbox">
+                            </label></th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Customer</th>
+                            <th scope="col">Customer wallet</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for payment in payments %}
+                          <tr>
+                            <td><input class="form-check-input" type="checkbox"></td>
+                            <td>{{ payment.created_at}}</td>
+                            <td>{{ payment.client.first_name }}</td>
+                            <td>{{ payment.client.card }}</td>
+                            <td>{{ payment.amount|intcomma}}</td>
+                              {% if payment.status == 1 %}
+                               <td><button type="button" class="btn btn-success m-1">Success</button></td>
+                                  {% else %}
+                                  <td ><button type="button" class="btn btn-square btn-danger m-2"><i class="btn-close"></i></button></td>
+                              {% endif %}
+
+                          </tr>
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Recent Sales End -->
+{% endblock content %}

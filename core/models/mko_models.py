@@ -341,7 +341,6 @@ class Payments(models.Model):
     period = models.IntegerField()
     percentage = models.IntegerField()
     sender_card = models.CharField(max_length=100)
-    cost = models.BigIntegerField()
     amount = models.BigIntegerField()
     date = models.DateField()
     is_transaction = models.IntegerField()

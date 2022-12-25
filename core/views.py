@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from core.forms import AccountAuthenticationForm
 from rest_framework.generics import ListCreateAPIView
 
+
 def login_view(request):
     context = {}
     user = request.user

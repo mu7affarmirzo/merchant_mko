@@ -8,7 +8,9 @@ from django.conf import settings
 from django.contrib.auth.models import User
 
 from core.forms import AccountAuthenticationForm
-from core.models.mko_models import Payments, Merchants
+from core.models.mko_models import Payments, Merchants, Brands
+from main.models import BrandsProfile
+from main.services import merchant_info_service, sales_service
 
 
 def login_view(request):
@@ -35,8 +37,44 @@ def login_view(request):
 
 @login_required
 def home_page_view(request):
-    merchant = request.user
-    merchant_key = merchant.merchant_prof.merchant_key
+
+    account = request.user
+    merchant_key = account.merchant_prof.merchant_key
+    context = {}
+    try:
+        merchant_model = Merchants.objects.get(key=merchant_key)
+    except Merchants.DoesNotExist:
+        return render(request, 'pages/index.html', {"payments": {}})
+    except Merchants.MultipleObjectsReturned:
+        merchant_model = Merchants.objects.filter(key=merchant_key).first()
+
+    if BrandsProfile.objects.filter(user=account).exists():
+        merchant_bank_balance = merchant_info_service(merchant_model.account.number)
+        brand = BrandsProfile.objects.get(user=account)
+        brand_merchants = Merchants.objects.filter(brand__name=brand.brand)
+        context['brand_merchants'] = brand_merchants
+        context['merchant_bank_balance'] = merchant_bank_balance
+        context['is_brand'] = True
+
+    payments = Payments.objects.filter(merchant=merchant_model)
+    balance = merchant_model.account.card.balance
+
+    total_sales, today_sales = sales_service(payments)
+
+    context['payments'] = payments
+    context['total_sales'] = total_sales
+    context['today_sales'] = today_sales
+    context['balance'] = balance
+
+    return render(request, 'pages/index.html', context)
+
+
+@login_required
+def cancel_payments_page_view(request):
+
+    account = request.user
+    merchant_key = account.merchant_prof.merchant_key
+    context = {}
     try:
         merchant_model = Merchants.objects.get(key=merchant_key)
     except Merchants.DoesNotExist:
@@ -44,6 +82,11 @@ def home_page_view(request):
     except Merchants.MultipleObjectsReturned:
         merchant_model = Merchants.objects.filter(key=merchant_key)
         merchant_model = merchant_model[0]
+
+    if BrandsProfile.objects.filter(user=account).exists():
+        brand = BrandsProfile.objects.get(user=account)
+        brand_merchants = Merchants.objects.filter(brand__name=brand.brand)
+        context['brand_merchants'] = brand_merchants
 
     payments = Payments.objects.filter(merchant=merchant_model)
     balance = merchant_model.account.card.balance
@@ -58,13 +101,71 @@ def home_page_view(request):
     else:
         today_sales = payments.filter(created_at=datetime.now().date()).aggregate(Sum('amount'))
 
-    context = {
-        "payments": payments,
-        "total_sales": total_sales,
-        "today_sales": today_sales,
-        "balance": balance
-    }
-    return render(request, 'pages/index.html', context)
+    context['payments'] = payments
+    context['total_sales'] = total_sales
+    context['today_sales'] = today_sales
+    context['balance'] = balance
+
+    return render(request, 'pages/cancel_payments.html', context)
+
+
+@login_required
+def cancel_payment_by_id_view(request, pk):
+
+    account = request.user
+    merchant_key = account.merchant_prof.merchant_key
+    context = {}
+    try:
+        merchant_model = Merchants.objects.get(key=merchant_key)
+    except Merchants.DoesNotExist:
+        return render(request, 'pages/index.html', {"payments": {}})
+    except Merchants.MultipleObjectsReturned:
+        merchant_model = Merchants.objects.filter(key=merchant_key)
+        merchant_model = merchant_model[0]
+
+    if BrandsProfile.objects.filter(user=account).exists():
+        brand = BrandsProfile.objects.get(user=account)
+        brand_merchants = Merchants.objects.filter(brand__name=brand.brand)
+        context['brand_merchants'] = brand_merchants
+
+    payment = Payments.objects.get(pk=pk)
+    balance = merchant_model.account.card.balance
+
+    context['payment'] = payment
+    context['balance'] = balance
+
+    return render(request, 'pages/cancel_payments_individual.html', context)
+
+
+@login_required
+def proceed_cancel(request, pk):
+
+
+@login_required
+def filial_page_view(request, pk):
+
+    account = request.user
+    context = {}
+
+    if BrandsProfile.objects.filter(user=account).exists():
+        merchant_bank_balance = merchant_info_service('2342342343')
+        brand = BrandsProfile.objects.get(user=account)
+        brand_merchants = Merchants.objects.filter(brand__name=brand.brand)
+        context['brand_merchants'] = brand_merchants
+        context['merchant_bank_balance'] = merchant_bank_balance
+
+    target_merchant = Merchants.objects.get(pk=pk)
+    payments = Payments.objects.filter(merchant=target_merchant)
+    balance = target_merchant.account.card.balance
+
+    total_sales, today_sales = sales_service(payments)
+
+    context['payments'] = payments
+    context['total_sales'] = total_sales
+    context['today_sales'] = today_sales
+    context['balance'] = balance
+
+    return render(request, 'pages/by_filial.html', context)
 
 
 def logout_view(request):
