@@ -1,6 +1,7 @@
 django
 requests
-whitenoise==6.0.0
-PyMySQL==1.0.2
+whitenoise
+PyMySQL
 djangorestframework
-python-decouple==3.6
+python-decouple
+psycopg2
