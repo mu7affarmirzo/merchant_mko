@@ -139,6 +139,7 @@ def cancel_payment_by_id_view(request, pk):
 
 @login_required
 def proceed_cancel(request, pk):
+    pass
 
 
 @login_required

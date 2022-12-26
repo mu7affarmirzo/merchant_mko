@@ -87,18 +87,18 @@ pymysql.install_as_MySQLdb()
 DATABASE_ROUTERS = ['routers.db_routers.AuthRouter', 'routers.db_routers.WalletRouter']
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #     'NAME': 'mko_merchant',
-    #     'USER': 'mko_merchant',
-    #     'PASSWORD': 'fr3shOcean55',
-    #     'HOST': 'localhost',
-    #     'PORT': '',
-    # },
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'mko_merchant',
+        'USER': 'mko_merchant',
+        'PASSWORD': 'fr3shOcean55',
+        'HOST': 'localhost',
+        'PORT': '',
     },
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': 'db.sqlite3',
+    # },
     'mko_db': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'mko_wallet',
