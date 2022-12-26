@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  db:
+    restart: unless-stopped
+    image: postgres:14.0
+    volumes:
+      - merchant_db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${DB_DB}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+  web:
+    restart: unless-stopped
+    build: .
+    command: python manage.py runserver 0.0.0.0:8080
+    volumes:
+      - .:/app
+    ports:
+      - "8080:8080"
+    environment:
+      - POSTGRES_NAME=${DB_DB}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    depends_on:
+      - db
+volumes:
+  merchant_db:
+    driver: local
