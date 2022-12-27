@@ -30,6 +30,7 @@ def merchant_info_service(number):
 
 
 def sales_service(payments):
+    payments = payments.filter(status=1)
     total_sales = payments.aggregate(Sum('amount'))
     if len(payments.filter(created_at=datetime.now().date())) == 0:
         today_sales = {
