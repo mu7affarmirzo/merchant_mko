@@ -186,7 +186,7 @@
                             <i class="fa fa-chart-line fa-3x text-primary"></i>
                             <div class="ms-3">
                                 <p class="mb-2">Today Sale</p>
-                                <h6 class="mb-0">UZS: {{ today_sales.amount__sum|intcomma }}</h6>
+                                <h6 class="mb-0">UZS: {{ today_sales|intcomma }}</h6>
                             </div>
                         </div>
                     </div>
@@ -195,7 +195,7 @@
                             <i class="fa fa-chart-bar fa-3x text-primary"></i>
                             <div class="ms-3">
                                 <p class="mb-2">Total Sales</p>
-                                <h6 class="mb-0">UZS: {{ total_sales.amount__sum|intcomma }}</h6>
+                                <h6 class="mb-0">UZS: {{ total_sales|intcomma }}</h6>
                             </div>
                         </div>
                     </div>
@@ -251,11 +251,11 @@
                                     <td>{{ payment.created_at}}</td>
                                     <td>{{ payment.client.first_name }}</td>
                                     <td>{{ payment.client.card }}</td>
-                                    <td>{{ payment.amount|intcomma}}</td>
+                                    <td>{{ payment.value_in_sum|intcomma}}</td>
                                       {% if payment.status == 1 %}
                                        <td><button class="btn btn-success m-1"></button></td>
                                           {% else %}
-                                          <td><button class="btn btn-square btn-danger m-2"><i class="btn-close"></i></button></td>
+                                          <td><button class="btn btn-danger m-1"></button></td>
                                       {% endif %}
 
                                   </tr>

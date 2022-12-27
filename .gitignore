@@ -215,6 +215,6 @@ cython_debug/
 
 # Migrations
 /migrations
-migrations
+migrations/
 
 

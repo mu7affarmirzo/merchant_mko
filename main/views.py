@@ -3,14 +3,14 @@ from datetime import datetime
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.conf import settings
 from django.contrib.auth.models import User
 
 from core.forms import AccountAuthenticationForm
 from core.models.mko_models import Payments, Merchants, Brands
 from main.models import BrandsProfile
-from main.services import merchant_info_service, sales_service
+from main.services import merchant_info_service, sales_service, proceed_cancel_service
 
 
 def login_view(request):
@@ -62,8 +62,8 @@ def home_page_view(request):
     total_sales, today_sales = sales_service(payments)
 
     context['payments'] = payments
-    context['total_sales'] = total_sales
-    context['today_sales'] = today_sales
+    context['total_sales'] = int(total_sales['amount__sum']/100)
+    context['today_sales'] = int(today_sales['amount__sum']/100)
     context['balance'] = balance
 
     return render(request, 'pages/index.html', context)
@@ -138,8 +138,11 @@ def cancel_payment_by_id_view(request, pk):
 
 
 @login_required
-def proceed_cancel(request, pk):
-    pass
+def proceed_cancel_view(request, pk):
+    payment = get_object_or_404(Payments, pk=pk)
+    print(payment.tr_id)
+    response = proceed_cancel_service(payment.tr_id)
+    return redirect('main:home')
 
 
 @login_required

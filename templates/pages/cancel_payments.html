@@ -64,6 +64,7 @@
                                     <th scope="col"><input class="form-check-input" type="checkbox"></th>
                                     <th scope="col">Date</th>
                                     <th scope="col">Customer</th>
+                                    <th scope="col">Transaction ID</th>
                                     <th scope="col">Customer wallet</th>
                                     <th scope="col">Amount</th>
                                     <th scope="col">Status</th>
@@ -76,17 +77,20 @@
                                     <td><input class="form-check-input" type="checkbox"></td>
                                     <td>{{ payment.created_at}}</td>
                                     <td>{{ payment.client.first_name }}</td>
+                                    <td>{{ payment.tr_id }}</td>
                                     <td>{{ payment.client.card }}</td>
                                     <td>{{ payment.amount|intcomma}}</td>
                                       {% if payment.status == 1 %}
                                        <td><button class="btn btn-success m-1"></button></td>
                                           {% else %}
-                                          <td><button class="btn btn-square btn-danger m-2"><i class="btn-close"></i></button></td>
+                                          <td><button class="btn btn-danger m-1"></button></td>
                                       {% endif %}
                                   <td>
-                                    <form action='{% url 'main:cancel-payment-by-id' payment.id %}' method='GET'> {% csrf_token %}
-                                        <button class="btn btn-danger m-1" type='submit'> Cancel</button>
-                                    </form>
+                                    {% if payment.status == 1 %}
+                                        <form action='{% url 'main:cancel-payment-by-id' payment.id %}' method='GET'> {% csrf_token %}
+                                            <button class="btn btn-danger m-1" type='submit'> Cancel</button>
+                                        </form>
+                                    {% endif %}
 
                             {% endfor %}
 

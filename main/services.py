@@ -39,3 +39,25 @@ def sales_service(payments):
         today_sales = payments.filter(created_at=datetime.now().date()).aggregate(Sum('amount'))
 
     return total_sales, today_sales
+
+
+def proceed_cancel_service(tr_id):
+    payload = {
+        "jsonrpc": "2.0",
+        "id": "{{$randomUUID}}",
+        "method": "payment.cancel",
+        "params": {
+            "tr_id": f"{tr_id}"
+        }
+    }
+
+    headers = {
+        "Authorization": f"Bearer {config('WALLET_TOKEN')}",
+        "Content-Type": "application/json"
+    }
+    try:
+        response = requests.post(url=url, headers=headers, json=payload)
+        response = response.json()
+        return response['status']
+    except:
+        return False

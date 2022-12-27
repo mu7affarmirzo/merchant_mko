@@ -353,6 +353,10 @@ class Payments(models.Model):
         managed = False
         db_table = 'payments'
 
+    @property
+    def value_in_sum(self):
+        return self.amount/100
+
 
 class Permissions(models.Model):
     id = models.BigAutoField(primary_key=True)

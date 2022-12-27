@@ -61,7 +61,7 @@
 
                         </thead>
                     </table>
-                        <form action='{% url 'main:home' %}' method='GET'>
+                        <form action='{% url 'main:cancel-payment-proceed' payment.id %}' method='GET'>
                             <button class="btn btn-danger m-1" type='submit' onclick="return confirm('Are you sure?');">Cancel Payment</button>
                         </form>
                 </div>
