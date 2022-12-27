@@ -5,12 +5,12 @@ services:
     restart: unless-stopped
     image: postgres:14.0
     volumes:
-      - merchant_db:/var/lib/postgresql/data
+      - merchant_mko_db:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=${DB_DB}
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-  web:
+      - POSTGRES_DB=mko_merchant
+      - POSTGRES_USER=mko_merchant
+      - POSTGRES_PASSWORD=mko_merchant
+  app:
     restart: unless-stopped
     build: .
     command: python manage.py runserver 0.0.0.0:8080
@@ -19,11 +19,11 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - POSTGRES_NAME=${DB_DB}
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_NAME=mko_merchant
+      - POSTGRES_USER=mko_merchant
+      - POSTGRES_PASSWORD=mko_merchant
     depends_on:
       - db
 volumes:
-  merchant_db:
+  merchant_mko_db:
     driver: local

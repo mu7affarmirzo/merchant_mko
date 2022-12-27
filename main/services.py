@@ -26,7 +26,7 @@ def merchant_info_service(number):
         response = response.json()
         return int(response['result']['saldo'])/100
     except:
-        return False
+        return 0
 
 
 def sales_service(payments):

@@ -171,4 +171,4 @@ def filial_page_view(request, pk):
 
 def logout_view(request):
     logout(request)
-    return redirect('core:login')
+    return redirect('main:login')

@@ -84,7 +84,7 @@
                                           <td><button class="btn btn-square btn-danger m-2"><i class="btn-close"></i></button></td>
                                       {% endif %}
                                   <td>
-                                    <form action='{% url 'main:cancel-payment-by-id' payment.id %}' method='GET'>
+                                    <form action='{% url 'main:cancel-payment-by-id' payment.id %}' method='GET'> {% csrf_token %}
                                         <button class="btn btn-danger m-1" type='submit'> Cancel</button>
                                     </form>
 
