@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models.mko_models import Accounts, TransactionAccounts, Payments, Brands, Merchants, Cards, Clients
+from .models.mko_models import Accounts, TransactionAccounts, Payments, Brands, Merchants, Cards, Clients, Transactions
 
 
 # Register your models here.
@@ -13,6 +13,11 @@ class AccountAdmin(admin.ModelAdmin):
 @admin.register(TransactionAccounts)
 class TransactionAccountsAdmin(admin.ModelAdmin):
     list_display = ('sender_id', 'receiver_id', 'amount')
+
+
+@admin.register(Transactions)
+class TransactionsAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in Transactions._meta.fields]
 
 
 @admin.register(Payments)

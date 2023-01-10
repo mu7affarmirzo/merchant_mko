@@ -108,7 +108,7 @@ def wallet_to_bank_acc_view(request):
     context['today_sales'] = today_sales
     context['balance'] = balance
 
-    return render(request, 'pages/cancel_payments.html', context)
+    return render(request, 'pages/wallet-to-bank.html', context)
 
 
 @login_required
