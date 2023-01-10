@@ -67,28 +67,22 @@
                                     <th scope="col">Percentage</th>
                                     <th scope="col">Payment ID</th>
                                     <th scope="col">Amount</th>
-                                    <th scope="col">Sender_card</th>
-{#                                    <th scope="col">Status</th>#}
-{#                                    <th scope="col">Action</th>#}
+{#                                    <th scope="col">Sender_card</th>#}
                                 </tr>
                             </thead>
                             <tbody>
-                            {% for trancation in trancations %}
+                            {% for transaction in transactions %}
                                   <tr>
                                     <td><input class="form-check-input" type="checkbox"></td>
-                                    <td>{{ trancation.created_at}}</td>
-                                    <td>{{ trancation.percentage }}</td>
-                                    <td>{{ trancation.payment_id }}</td>
-                                    <td>{{ trancation.amount|intcomma }}</td>
-                                    <td>{{ trancation.sender_card}}</td>
-{#                                      {% if trancation.status == 1 %}#}
-{#                                       <td><button class="btn btn-success m-1"></button></td>#}
-{#                                          {% else %}#}
-{#                                          <td><button class="btn btn-danger m-1"></button></td>#}
-{#                                      {% endif %}#}
+                                    <td>{{ transaction.created_at}}</td>
+                                    <td>{{ transaction.percentage }}</td>
+                                    <td>{{ transaction.payment_id }}</td>
+                                    <td>{{ transaction.amount|intcomma }}</td>
+{#                                    <td>{{ transaction.sender_card}}</td>#}
+
                                   <td>
-                                    {% if trancation.status == 1 %}
-                                        <form action='{% url '' transaction.id %}' method='GET'> {% csrf_token %}
+                                    {% if transaction.status == 1 %}
+                                        <form action='#' method='GET'> {% csrf_token %}
                                             <button class="btn btn-primary m-1" type='submit'> Proceed</button>
                                         </form>
                                     {% endif %}

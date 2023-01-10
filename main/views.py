@@ -107,6 +107,7 @@ def wallet_to_bank_acc_view(request):
     context['total_sales'] = total_sales
     context['today_sales'] = today_sales
     context['balance'] = balance
+    print(transactions)
 
     return render(request, 'pages/wallet-to-bank.html', context)
 

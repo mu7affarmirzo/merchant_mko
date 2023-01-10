@@ -444,7 +444,7 @@ class Transactions(models.Model):
     account = models.ForeignKey(Accounts, on_delete=models.CASCADE)
     payment = models.ForeignKey(Payments, on_delete=models.CASCADE)
     amount = models.BigIntegerField()
-    cost_amount = models.BigIntegerField()
+    # cost_amount = models.BigIntegerField()
     percentage = models.IntegerField()
     status = models.IntegerField()
     is_sent = models.IntegerField()

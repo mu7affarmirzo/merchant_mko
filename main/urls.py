@@ -13,7 +13,7 @@ urlpatterns = [
     path('cancel-payments', cancel_payments_page_view, name='cancel-payments'),
     path('cancel/payments/<int:pk>', cancel_payment_by_id_view, name='cancel-payment-by-id'),
     path('cancel/payments/proceed/<int:pk>', proceed_cancel_view, name='cancel-payment-proceed'),
-    path('wallet_to_bacc', wallet_to_bank_acc_view, name='wallet-to-bank'),
+    path('wallet-to-bacc', wallet_to_bank_acc_view, name='wallet-to-bank'),
 
     path('payments/branch/<int:pk>', filial_page_view, name='payments-by-branches'),
 ]
