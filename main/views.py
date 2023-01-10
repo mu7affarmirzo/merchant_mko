@@ -8,7 +8,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 
 from core.forms import AccountAuthenticationForm
-from core.models.mko_models import Payments, Merchants, Brands
+from core.models.mko_models import Payments, Merchants, Brands, Transactions
 from main.models import BrandsProfile
 from main.services import merchant_info_service, sales_service, proceed_cancel_service
 
@@ -67,6 +67,48 @@ def home_page_view(request):
     context['balance'] = balance
 
     return render(request, 'pages/index.html', context)
+
+
+@login_required
+def wallet_to_bank_acc_view(request):
+
+    account = request.user
+    merchant_key = account.merchant_prof.merchant_key
+    context = {}
+    try:
+        merchant_model = Merchants.objects.get(key=merchant_key)
+    except Merchants.DoesNotExist:
+        return render(request, 'pages/index.html', {"payments": {}})
+    except Merchants.MultipleObjectsReturned:
+        merchant_model = Merchants.objects.filter(key=merchant_key)
+        merchant_model = merchant_model[0]
+
+    if BrandsProfile.objects.filter(user=account).exists():
+        brand = BrandsProfile.objects.get(user=account)
+        brand_merchants = Merchants.objects.filter(brand__name=brand.brand)
+        context['brand_merchants'] = brand_merchants
+
+    payments = Payments.objects.filter(merchant=merchant_model)
+    transactions = Transactions.objects.filter(account=merchant_model.account)
+
+    balance = merchant_model.account.card.balance
+    merchant_card = merchant_model.account.card
+    print(f"Balance: {balance}")
+
+    total_sales = payments.aggregate(Sum('amount'))
+    if len(payments.filter(created_at=datetime.now().date())) == 0:
+        today_sales = {
+            'amount__sum': 0
+        }
+    else:
+        today_sales = payments.filter(created_at=datetime.now().date()).aggregate(Sum('amount'))
+
+    context['transactions'] = transactions
+    context['total_sales'] = total_sales
+    context['today_sales'] = today_sales
+    context['balance'] = balance
+
+    return render(request, 'pages/cancel_payments.html', context)
 
 
 @login_required

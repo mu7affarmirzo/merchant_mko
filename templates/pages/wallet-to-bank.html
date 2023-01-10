@@ -1,0 +1,104 @@
+{% extends 'snippets/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{%  block content %}
+    <!-- Sale & Revenue Start -->
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fa fa-chart-bar fa-3x text-primary"></i>
+                    <div class="ms-3">
+                        <p class="mb-2">Total Sales</p>
+                        <h6 class="mb-0">UZS: {{ total_sales.amount__sum|intcomma }}</h6>
+                    </div>
+                </div>
+            </div>
+
+            {% if is_brand %}
+                <div class="col-sm-6 col-xl-3">
+                    <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                        <i class="fa fa-chart-area fa-3x text-primary"></i>
+                        <div class="ms-3">
+                            <p class="mb-2">Bank Account Balance</p>
+                            <h6 class="mb-0">UZS: {{ merchant_bank_balance|intcomma }}</h6>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fa fa-chart-pie fa-3x text-primary"></i>
+                    <div class="ms-3">
+                        <p class="mb-2">Balance(Wallet)</p>
+                        <h6 class="mb-0">UZS: {{ balance|intcomma }}</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
+                    <i class="fa fa-chart-line fa-3x text-primary"></i>
+                    <div class="ms-3">
+                        <p class="mb-2">O'tkazma holat kodi</p>
+                        <h6 class="mb-0">UZS: </h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Sale & Revenue End -->
+
+    <!-- Recent Sales Start -->
+    <div class="container-fluid pt-4 px-4">
+    <div class="bg-light text-center rounded p-4">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <h6 class="mb-0">Recent Sales</h6>
+        <a href="">Show All</a>
+    </div>
+    <div class="table-responsive">
+                        <table class="table text-start align-middle table-bordered table-hover mb-0">
+                            <thead>
+                                <tr class="text-dark">
+                                    <th scope="col"><input class="form-check-input" type="checkbox"></th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Percentage</th>
+                                    <th scope="col">Payment ID</th>
+                                    <th scope="col">Amount</th>
+                                    <th scope="col">Sender_card</th>
+{#                                    <th scope="col">Status</th>#}
+{#                                    <th scope="col">Action</th>#}
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for trancation in trancations %}
+                                  <tr>
+                                    <td><input class="form-check-input" type="checkbox"></td>
+                                    <td>{{ trancation.created_at}}</td>
+                                    <td>{{ trancation.percentage }}</td>
+                                    <td>{{ trancation.payment_id }}</td>
+                                    <td>{{ trancation.amount|intcomma }}</td>
+                                    <td>{{ trancation.sender_card}}</td>
+{#                                      {% if trancation.status == 1 %}#}
+{#                                       <td><button class="btn btn-success m-1"></button></td>#}
+{#                                          {% else %}#}
+{#                                          <td><button class="btn btn-danger m-1"></button></td>#}
+{#                                      {% endif %}#}
+                                  <td>
+                                    {% if trancation.status == 1 %}
+                                        <form action='{% url '' transaction.id %}' method='GET'> {% csrf_token %}
+                                            <button class="btn btn-primary m-1" type='submit'> Proceed</button>
+                                        </form>
+                                    {% endif %}
+
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+    </div>
+    </div>
+    <!-- Recent Sales End -->
+{%  endblock content %}

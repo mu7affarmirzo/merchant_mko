@@ -62,3 +62,25 @@ def proceed_cancel_service(tr_id):
         return response['status']
     except:
         return False
+
+
+def wallet_to_bank_account_service(tr_id):
+    payload = {
+        "jsonrpc": "2.0",
+        "id": "{{$randomUUID}}",
+        "method": "transaction.send",
+        "params": {
+            "tr_id": f"{tr_id}"
+        }
+    }
+
+    headers = {
+        "Authorization": f"Bearer {config('WALLET_TOKEN')}",
+        "Content-Type": "application/json"
+    }
+    try:
+        response = requests.post(url=url, headers=headers, json=payload)
+        response = response.json()
+        return response['status']
+    except:
+        return False

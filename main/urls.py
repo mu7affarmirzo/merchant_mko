@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import login_view, home_page_view, logout_view, cancel_payments_page_view, filial_page_view, \
-    cancel_payment_by_id_view, proceed_cancel_view
+    cancel_payment_by_id_view, proceed_cancel_view, wallet_to_bank_acc_view
 from django.contrib.auth import views
 
 app_name = 'main'
@@ -13,6 +13,7 @@ urlpatterns = [
     path('cancel-payments', cancel_payments_page_view, name='cancel-payments'),
     path('cancel/payments/<int:pk>', cancel_payment_by_id_view, name='cancel-payment-by-id'),
     path('cancel/payments/proceed/<int:pk>', proceed_cancel_view, name='cancel-payment-proceed'),
+    path('wallet_to_bacc', wallet_to_bank_acc_view, name='wallet-to-bank'),
 
     path('payments/branch/<int:pk>', filial_page_view, name='payments-by-branches'),
 ]
